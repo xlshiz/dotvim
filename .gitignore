@@ -1,0 +1,7 @@
+.netrwhist
+_undo/
+ack*
+ag
+bundle/*
+!bundle/neobundle.vim
+
