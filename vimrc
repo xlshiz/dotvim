@@ -28,12 +28,12 @@ NeoBundleLazy	'bufexplorer.zip'
 " --------
 NeoBundleLazy	'docunext/closetag.vim'			" html标签配对
 NeoBundle	'kien/ctrlp.vim'
-NeoBundle	'hsixa/ctrlp-fastmatcher.vim'
-NeoBundle	'hsixa/ctrlp-filetag.vim'
+NeoBundle	'zyxshi/ctrlp-fastmatcher.vim'
+NeoBundle	'zyxshi/ctrlp-filetag.vim'
 NeoBundle	'dyng/ctrlsf.vim'
 " --------
 NeoBundle	'Raimondi/delimitMate'
-NeoBundle	'hsixa/DoxygenToolkit.vim'
+NeoBundle	'zyxshi/DoxygenToolkit.vim'
 NeoBundleLazy	'DrawIt'
 " --------
 " NeoBundle	'mbbill/echofunc'
