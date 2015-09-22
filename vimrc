@@ -38,6 +38,8 @@ NeoBundleLazy	'DrawIt'
 " --------
 " NeoBundle	'mbbill/echofunc'
 " --------
+NeoBundle	'morhetz/gruvbox'
+" --------
 NeoBundleLazy	'Yggdroot/LeaderF'
 " --------
 NeoBundle	'Mark'
@@ -45,12 +47,12 @@ NeoBundle	'matchit.zip'
 NeoBundle	'tomasr/molokai'
 " --------
 NeoBundleLazy	'Shougo/neocomplcache.vim'
-NeoBundle	'Shougo/neocomplete.vim'
+NeoBundleLazy	'Shougo/neocomplete.vim'
 NeoBundle	'scrooloose/nerdcommenter'
 NeoBundle	'scrooloose/nerdtree'
 " --------
 NeoBundleLazy	'xuhdev/SingleCompile'
-NeoBundleLazy	'scrooloose/syntastic'
+NeoBundle	'scrooloose/syntastic'
 " --------
 NeoBundle	'majutsushi/tagbar'
 NeoBundleLazy	'taglist.vim'
@@ -63,8 +65,7 @@ NeoBundleLazy	'altercation/vim-colors-solarized'
 NeoBundle	'junegunn/vim-easy-align'
 NeoBundle	'Lokaltog/vim-easymotion'
 NeoBundleLazy	'terryma/vim-expand-region'
-NeoBundleLazy	'tpope/vim-fugitive'
-NeoBundle	'airblade/vim-gitgutter'
+NeoBundle	'tpope/vim-fugitive'
 NeoBundle	'terryma/vim-multiple-cursors'
 NeoBundle	'tpope/vim-repeat'
 NeoBundle	'honza/vim-snippets'
@@ -75,7 +76,8 @@ NeoBundleLazy	'vimwiki/vimwiki'
 " --------
 NeoBundle	'gcmt/wildfire.vim'
 " --------
-NeoBundleLazy	'Valloric/YouCompleteMe'
+NeoBundle	'Valloric/YouCompleteMe'
+NeoBundle	'morhetz/gruvbox'
 
 call neobundle#end()
 "}}}2
@@ -118,8 +120,8 @@ set matchtime=2				"闪烁两秒
 set nonumber				"不显示行号
 set relativenumber number		"显示相对行号
 " set autochdir				"自动改变当前目录
-" set ignorecase				"默认搜索不区分大小写
-" set smartcase				"当输入大写字母是自动开启区分大小写
+set ignorecase				"默认搜索不区分大小写
+set smartcase				"当输入大写字母是自动开启区分大小写
 set incsearch				"打开递进式搜索
 set hls					"高亮显示搜索匹配
 set ambiwidth=double
@@ -206,7 +208,7 @@ function CMode()
 	setlocal cindent
 	set list 				"显示空白字符
 	set listchars=tab:▸\ ,trail:▫
-	autocmd BufWritePre *.c FixWhitespace
+	" autocmd BufWritePre *.c FixWhitespace
 endfunction
 command -nargs=0 CMode call CMode()
 
@@ -216,7 +218,7 @@ function KernelMode()
 	setlocal tw=78
 	set list 				"显示空白字符
 	set listchars=tab:▸\ ,trail:▫
-	autocmd BufWritePre *.c FixWhitespace
+	" autocmd BufWritePre *.c FixWhitespace
 endfunction
 command -nargs=0 KernelMode call KernelMode()
 
@@ -352,16 +354,22 @@ map <c-h>	<c-w>h
 map <c-j>	<c-w>j
 map <c-k>	<c-w>k
 map <c-l>	<c-w>l
+map <leader>wh	<c-w>h
+map <leader>wj	<c-w>j
+map <leader>wk	<c-w>k
+map <leader>wl	<c-w>l
 map \1		<c-w>o
 map \d		<c-w>c
 map <leader>d	:bd!<CR>
 imap <c-f>	<c-o>f
 map <F5>	:SingleCompile<CR>
 map <c-F5>	:SingleCompileRun<CR>
-map <leader>w	:up<CR>
+map <leader>ww	:up<CR>
 map <leader>q	:qa!<CR>
 map <leader>x	:xa<CR>
-map <leader>a	:CtrlSF<CR>
+map <leader>ag	:CtrlSF<CR>
+map <leader>ao	:CtrlSFOpen<CR>
+map <leader>aa	:CtrlSF 
 " map <leader>2	:Tlist<CR>
 map <leader>2	:TagbarToggle<CR>
 map <leader>3	:CtrlPFiletag<cr>
@@ -603,8 +611,8 @@ if (neobundle#is_sourced("neocomplete.vim"))
 	" For perlomni.vim setting.
 	" https://github.com/c9s/perlomni.vim
 	let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+	autocmd VimLeave * call RemoveOverTimeFiles(14, $HOME.'/.cache/neocomplete')
 endif
-autocmd VimLeave * call RemoveOverTimeFiles(14, $HOME.'/.cache/neocomplete')
 "}}}
 " *syntastic {{{
 let g:syntastic_error_symbol='>>'
@@ -684,29 +692,24 @@ endif
 " *Platform(Linux and Win) {{{1
 if has("win32")
 	set guifont=Courier_New:h12
-	colorscheme molokai
+	colorscheme gruvbox
 	if has("autocmd")
 		au GUIEnter * simalt ~x
 	endif
-
-	" For ctags
 	let Tlist_Ctags_Cmd = "c:\\windows\\ctags.exe"
-
-	" For MRU
 	let MRU_File = expand("$VIM/vimfiles/mru/_vim_mru_files")	"mru set
-
-	" For tee
-	set shellpipe=2>&1\|\ tee
-
-	set helplang=cn		"中文帮助设置
+	set shellpipe=2>&1\|\ tee 					" For tee
+	set helplang=cn							"中文帮助设置
 elseif has("unix")
 	if has('gui_running')
-		set guifont=DejaVu\ Sans\ Mono\ 12
-		colorscheme molokai
+		set guifont=Source\ Code\ Pro\ Medium\ 12
+		colorscheme gruvbox
 	else
-		set t_Co=256
-		let g:rehash256=1
-		colorscheme molokai
+		" set t_Co=256
+		" let g:rehash256=1
+		" colorscheme molokai
+		set background=dark
+		colorscheme gruvbox
 	endif
 	if has("autocmd")
 	endif
