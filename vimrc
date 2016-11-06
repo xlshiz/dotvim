@@ -1,85 +1,72 @@
-" **NeoBundle {{{1
+" **dein {{{1
 " *Settings {{{2
 set all&			" Reset all
 if has('vim_starting')
 	set nocompatible		" Be iMproved
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
+	set runtimepath+=~/.vim/bundle/repos/github.com/Shougo/dein.vim/
 endif
-call neobundle#begin(expand('~/.vim/bundle/'))
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+call dein#begin(expand('~/.vim/bundle/'))
 
-" Recommended to install
-" After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-"}}}2
 " *My Bundles {{{2
 " --------
-NeoBundleLazy	'mileszs/ack.vim'
+" NeoBundleLazy	'mileszs/ack.vim'
+call dein#add('jiangmiao/auto-pairs')
 " --------
-NeoBundleLazy	'bufexplorer.zip'
+" NeoBundleLazy	'bufexplorer.zip'
 " --------
-NeoBundleLazy	'docunext/closetag.vim'			" html标签配对
-NeoBundle	'kien/ctrlp.vim'
-NeoBundle	'zyxshi/ctrlp-fastmatcher.vim'
-NeoBundle	'zyxshi/ctrlp-filetag.vim'
-NeoBundle	'dyng/ctrlsf.vim'
+call dein#add('docunext/closetag.vim', {'on_ft': ['html', 'xml']})			" html标签配对
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('xlshiz/ctrlp-fastmatcher.vim')
+call dein#add('xlshiz/ctrlp-filetag.vim')
+call dein#add('dyng/ctrlsf.vim')
 " --------
-NeoBundle	'Raimondi/delimitMate'
-NeoBundle	'zyxshi/DoxygenToolkit.vim'
-NeoBundleLazy	'DrawIt'
+" NeoBundleLazy	'Raimondi/delimitMate'
+call dein#add('xlshiz/DoxygenToolkit.vim', {'on_cmd': 'Dox'})
+call dein#add('DrawIt', {'lazy': 1})
 " --------
 " NeoBundle	'mbbill/echofunc'
 " --------
-NeoBundle	'morhetz/gruvbox'
+call dein#add('morhetz/gruvbox')
 " --------
-NeoBundleLazy	'Yggdroot/LeaderF'
+" NeoBundleLazy	'Yggdroot/LeaderF'
 " --------
-NeoBundle	'Mark'
-NeoBundle	'matchit.zip'
-NeoBundle	'tomasr/molokai'
+call dein#add('Mark')
+call dein#add('matchit.zip')
+call dein#add('tomasr/molokai')
 " --------
-NeoBundleLazy	'Shougo/neocomplcache.vim'
-NeoBundleLazy	'Shougo/neocomplete.vim'
-NeoBundle	'scrooloose/nerdcommenter'
-NeoBundle	'scrooloose/nerdtree'
+" NeoBundleLazy	'Shougo/neocomplcache.vim'
+" NeoBundleLazy	'Shougo/neocomplete.vim'
+call dein#add('scrooloose/nerdcommenter')
+call dein#add('scrooloose/nerdtree')
 " --------
-NeoBundleLazy	'xuhdev/SingleCompile'
-NeoBundle	'scrooloose/syntastic'
+call dein#add('xuhdev/SingleCompile', {'on_cmd': 'SingleCompile'})
+call dein#add('scrooloose/syntastic')
 " --------
-NeoBundle	'majutsushi/tagbar'
-NeoBundleLazy	'taglist.vim'
+call dein#add('majutsushi/tagbar')
+" NeoBundleLazy	'taglist.vim'
 " --------
-NeoBundle	'SirVer/ultisnips'
-NeoBundleLazy	'Shougo/unite.vim'
+call dein#add('SirVer/ultisnips')
+" NeoBundleLazy	'Shougo/unite.vim'
 " --------
-NeoBundle	'bling/vim-airline'
-NeoBundleLazy	'altercation/vim-colors-solarized'
-NeoBundle	'junegunn/vim-easy-align'
-NeoBundle	'Lokaltog/vim-easymotion'
-NeoBundleLazy	'terryma/vim-expand-region'
-NeoBundle	'tpope/vim-fugitive'
-NeoBundle	'terryma/vim-multiple-cursors'
-NeoBundle	'tpope/vim-repeat'
-NeoBundle	'honza/vim-snippets'
-NeoBundleLazy	'tpope/vim-surround'
-NeoBundle	'bronson/vim-trailing-whitespace'
-NeoBundleLazy	'Shougo/vimshell.vim'
-NeoBundleLazy	'vimwiki/vimwiki'
+call dein#add('bling/vim-airline')
+" NeoBundleLazy	'altercation/vim-colors-solarized'
+call dein#add('junegunn/vim-easy-align')
+call dein#add('Lokaltog/vim-easymotion')
+call dein#add('tpope/vim-fugitive')
+call dein#add('terryma/vim-multiple-cursors')
+call dein#add('jceb/vim-orgmode')
+call dein#add('tpope/vim-repeat')
+call dein#add('honza/vim-snippets')
+call dein#add('tpope/vim-surround', {'on_ft': ['html', 'xml']})
+call dein#add('bronson/vim-trailing-whitespace')
+" NeoBundleLazy	'Shougo/vimshell.vim'
+" NeoBundleLazy	'vimwiki/vimwiki'
 " --------
-NeoBundle	'gcmt/wildfire.vim'
+call dein#add('gcmt/wildfire.vim')
 " --------
-NeoBundle	'Valloric/YouCompleteMe'
-NeoBundle	'morhetz/gruvbox'
+call dein#add('Valloric/YouCompleteMe')
 
-call neobundle#end()
+call dein#end()
 "}}}2
 "}}}1
 " *Settings {{{1
@@ -109,6 +96,7 @@ if has('mouse')				"如果该Vim支持鼠标，则启用鼠标支持
 	endif
 endif
 let mapleader = ","			"设置导键
+let mapleader = "\<space>"			"设置导键
 set wak=no				"alt键盘不作为菜单选择快捷键使用
 set showcmd				"显示输入过的命令
 set nobackup				"不自动备份
@@ -360,11 +348,11 @@ map <leader>wk	<c-w>k
 map <leader>wl	<c-w>l
 map \1		<c-w>o
 map \d		<c-w>c
-map <leader>d	:bd!<CR>
+map <leader>bd	:bd!<CR>
 imap <c-f>	<c-o>f
 map <F5>	:SingleCompile<CR>
 map <c-F5>	:SingleCompileRun<CR>
-map <leader>ww	:up<CR>
+map <leader>fs	:up<CR>
 map <leader>q	:qa!<CR>
 map <leader>x	:xa<CR>
 map <leader>ag	:CtrlSF<CR>
@@ -377,11 +365,11 @@ map <leader>44	:call CreatCtags(1)<CR><CR>
 map <leader>43	:call CreatCtags(2)<CR><CR>
 map <leader>41	:call AddPrjSet()<CR>
 map <leader>g	:tag 
-map <leader>b	:CtrlPBuffer<CR>
-map <leader>fd	:NERDTreeToggle<CR>
-map <leader>ff	:NERDTreeFind<CR>
+map <leader>bb	:CtrlPBuffer<CR>
+map <leader>td	:NERDTreeToggle<CR>
+map <leader>tf	:NERDTreeFind<CR>
 map <leader>l	:Tabularize /
-map <leader><space>	:FixWhitespace<CR>
+" map <leader><space>	:FixWhitespace<CR>
 map Y 		y$
 noremap <C-Q>		<C-V>
 if has('eval')
@@ -527,7 +515,7 @@ let g:airline#extensions#tagbar#enabled = 0
 let NERDSpaceDelims = 1
 "}}}2
 " *Neocomplete {{{2
-if (neobundle#is_sourced("neocomplete.vim"))
+if (dein#is_sourced("neocomplete.vim"))
 	"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 	" Disable AutoComplPop.
 	let g:acp_enableAtStartup = 0
@@ -626,7 +614,7 @@ let g:syntastic_html_checkers=['tidy', 'jshint']
 highlight SyntasticErrorSign guifg=white guibg=black
 "}}}
 " *YCM {{{
-if (neobundle#is_sourced("YouCompleteMe"))
+if (dein#is_sourced("YouCompleteMe"))
 	"youcompleteme  默认tab  s-tab 和自动补全冲突
 	"let g:ycm_key_list_select_completion=['<c-n>']
 	let g:ycm_key_list_select_completion = ['<Down>']
@@ -648,12 +636,12 @@ if (neobundle#is_sourced("YouCompleteMe"))
 
 	" 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
 	" old version
-	if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
-		let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
+	if !empty(glob("~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
+		let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
 	endif
 	" new version
-	if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-		let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+	if !empty(glob("~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+		let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 	endif
 
 	" 黑名单,不启用
@@ -671,19 +659,13 @@ let g:UltiSnipsExpandTrigger       = "<tab>"
 let g:UltiSnipsJumpForwardTrigger  = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " }}}
-" *Closetag {{{
-au BufNewFile,BufRead *.html,*.xml NeoBundleSource closetag.vim
-" }}}
-" *Surround {{{
-au BufNewFile,BufRead *.html,*.xml NeoBundleSource vim-surround
-" }}}
 " *DelimitMate {{{
-if (neobundle#is_sourced("delimitMate"))
+if (dein#is_sourced("delimitMate"))
 	au BufNewFile,BufRead *.c,*.cpp,*.h let b:delimitMate_matchpairs = "(:),[:]"
 endif
 " }}}
 " *Easy-align {{{
-if (neobundle#is_sourced("vim-easy-align"))
+if (dein#is_sourced("vim-easy-align"))
 	let g:easy_align_delimiters={}
 	au BufNewFile,BufRead *.c,*.cpp,*.h let g:easy_align_delimiters['d'] = { 'pattern': '\(const\|static\|struct\)\@<! ', 'left_margin': 0, 'right_margin': 0 }
 endif
@@ -692,6 +674,7 @@ endif
 " *Platform(Linux and Win) {{{1
 if has("win32")
 	set guifont=Courier_New:h12
+	set background=dark
 	colorscheme gruvbox
 	if has("autocmd")
 		au GUIEnter * simalt ~x
