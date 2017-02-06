@@ -636,11 +636,9 @@ if (dein#is_sourced("YouCompleteMe"))
 
 	" 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
 	" old version
-	if !empty(glob("~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
-		let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
-	endif
-	" new version
-	if !empty(glob("~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+	if !empty(glob("~/.vim/global_conf.py"))
+		let g:ycm_global_ycm_extra_conf = "~/.vim/global_conf.py"
+	else
 		let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 	endif
 
