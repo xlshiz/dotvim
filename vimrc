@@ -9,12 +9,9 @@ call dein#begin(expand('~/.vim/bundle/'))
 
 " *My Bundles {{{2
 " --------
-" NeoBundleLazy	'mileszs/ack.vim'
+call dein#add('w0rp/ale')
 call dein#add('jiangmiao/auto-pairs')
 " --------
-" NeoBundleLazy	'bufexplorer.zip'
-" --------
-call dein#add('docunext/closetag.vim', {'on_ft': ['html', 'xml']})			" html标签配对
 call dein#add('ctrlpvim/ctrlp.vim')
 call dein#add('xlshiz/ctrlp-fastmatcher.vim')
 call dein#add('xlshiz/ctrlp-filetag.vim')
@@ -24,40 +21,34 @@ call dein#add('dyng/ctrlsf.vim')
 call dein#add('xlshiz/DoxygenToolkit.vim', {'on_cmd': 'Dox'})
 call dein#add('DrawIt', {'lazy': 1})
 " --------
-" NeoBundle	'mbbill/echofunc'
+" call dein#add('mbbill/echofunc')
+" call dein#add('Shougo/echodoc.vim')
 " --------
-call dein#add('morhetz/gruvbox')
-" --------
-" NeoBundleLazy	'Yggdroot/LeaderF'
+call dein#add('junegunn/fzf.vim')
 " --------
 call dein#add('Mark')
 call dein#add('matchit.zip')
-call dein#add('tomasr/molokai')
 " --------
-" NeoBundleLazy	'Shougo/neocomplcache.vim'
-" NeoBundleLazy	'Shougo/neocomplete.vim'
+" call dein#add('Shougo/neocomplcache.vim')
+" call dein#add('Shougo/neocomplete.vim')
 call dein#add('scrooloose/nerdcommenter')
 call dein#add('scrooloose/nerdtree')
 " --------
 call dein#add('xuhdev/SingleCompile', {'on_cmd': 'SingleCompile'})
-call dein#add('scrooloose/syntastic')
+" call dein#add('scrooloose/syntastic')
 " --------
 call dein#add('majutsushi/tagbar')
 " NeoBundleLazy	'taglist.vim'
 " --------
 call dein#add('SirVer/ultisnips')
-" NeoBundleLazy	'Shougo/unite.vim'
 " --------
 call dein#add('bling/vim-airline')
-" NeoBundleLazy	'altercation/vim-colors-solarized'
 call dein#add('junegunn/vim-easy-align')
 call dein#add('Lokaltog/vim-easymotion')
 call dein#add('tpope/vim-fugitive')
 call dein#add('terryma/vim-multiple-cursors')
-call dein#add('jceb/vim-orgmode')
 call dein#add('tpope/vim-repeat')
 call dein#add('honza/vim-snippets')
-call dein#add('tpope/vim-surround', {'on_ft': ['html', 'xml']})
 call dein#add('bronson/vim-trailing-whitespace')
 " NeoBundleLazy	'Shougo/vimshell.vim'
 " NeoBundleLazy	'vimwiki/vimwiki'
@@ -65,6 +56,18 @@ call dein#add('bronson/vim-trailing-whitespace')
 call dein#add('gcmt/wildfire.vim')
 " --------
 call dein#add('Valloric/YouCompleteMe')
+" --------color--------
+call dein#add('morhetz/gruvbox')
+call dein#add('tomasr/molokai', {'lazy': 1})
+call dein#add('altercation/vim-colors-solarized', {'lazy': 1})
+" --------language--------
+call dein#add('docunext/closetag.vim', {'on_ft': ['html', 'xml']})			" html标签配对
+call dein#add('tpope/vim-surround', {'on_ft': ['html', 'xml']})
+call dein#add('plasticboy/vim-markdown', {'on_ft': ['md', 'markdown']})
+call dein#add('jceb/vim-orgmode', {'on_ft': 'org'})
+call dein#add('hdima/python-syntax', {'on_ft': 'python'})
+call dein#add('hynek/vim-python-pep8-indent', {'on_ft': 'python'})
+call dein#add('Glench/Vim-Jinja2-Syntax', {'on_ft': 'python'})
 
 call dein#end()
 "}}}2
@@ -99,6 +102,7 @@ let mapleader = ","			"设置导键
 let mapleader = "\<space>"			"设置导键
 set wak=no				"alt键盘不作为菜单选择快捷键使用
 set showcmd				"显示输入过的命令
+set noshowmode
 set nobackup				"不自动备份
 set noswapfile				"关闭交换文件
 set writebackup				"写备份
@@ -226,7 +230,7 @@ if has("autocmd")
 	au BufNewFile,BufRead *.s,*.S call SMode()
 	au BufNewFile,BufReadPre *.asm call AsmMode()
 	au BufNewFile,BufRead *.[ch],*.cpp,*.cc call KernelMode()
-	au BufNewFile,BufRead *.py call PyMode()
+	" au BufNewFile,BufRead *.py call PyMode()
 else
 	set autoindent
 	set smartindent
@@ -603,15 +607,17 @@ if (dein#is_sourced("neocomplete.vim"))
 endif
 "}}}
 " *syntastic {{{
-let g:syntastic_error_symbol='>>'
-let g:syntastic_warning_symbol='>'
-let g:syntastic_check_on_open=1
-let g:syntastic_enable_highlighting = 0
-"let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
-let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes,速度比pylint快
-let g:syntastic_javascript_checkers = ['jsl', 'jshint']
-let g:syntastic_html_checkers=['tidy', 'jshint']
-highlight SyntasticErrorSign guifg=white guibg=black
+if (dein#is_sourced("syntastic"))
+	let g:syntastic_error_symbol='>>'
+	let g:syntastic_warning_symbol='>'
+	let g:syntastic_check_on_open=1
+	let g:syntastic_enable_highlighting = 0
+	"let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
+	let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes,速度比pylint快
+	let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+	let g:syntastic_html_checkers=['tidy', 'jshint']
+	highlight SyntasticErrorSign guifg=white guibg=black
+endif
 "}}}
 " *YCM {{{
 if (dein#is_sourced("YouCompleteMe"))
@@ -634,13 +640,8 @@ if (dein#is_sourced("YouCompleteMe"))
 
 	"let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
-	" 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
-	" old version
-	if !empty(glob("~/.vim/global_conf.py"))
-		let g:ycm_global_ycm_extra_conf = "~/.vim/global_conf.py"
-	else
-		let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-	endif
+	" 引入可以补全系统，以及python的第三方包
+	let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 
 	" 黑名单,不启用
 	let g:ycm_filetype_blacklist = {
@@ -686,10 +687,10 @@ elseif has("unix")
 		set guifont=Source\ Code\ Pro\ Medium\ 12
 		colorscheme gruvbox
 	else
-		" set t_Co=256
-		" let g:rehash256=1
+		set termguicolors
+		set t_Co=256
+		" set background=dark
 		" colorscheme molokai
-		set background=dark
 		colorscheme gruvbox
 	endif
 	if has("autocmd")
