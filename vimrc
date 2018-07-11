@@ -35,23 +35,21 @@ call dein#add('scrooloose/nerdcommenter')
 call dein#add('scrooloose/nerdtree')
 " --------
 call dein#add('xuhdev/SingleCompile', {'on_cmd': 'SingleCompile'})
-" call dein#add('scrooloose/syntastic')
 " --------
 call dein#add('majutsushi/tagbar')
-" NeoBundleLazy	'taglist.vim'
 " --------
 call dein#add('SirVer/ultisnips')
 " --------
 call dein#add('bling/vim-airline')
 call dein#add('junegunn/vim-easy-align')
 call dein#add('Lokaltog/vim-easymotion')
-call dein#add('tpope/vim-fugitive')
+" call dein#add('tpope/vim-fugitive')
+call dein#add('ludovicchabant/vim-gutentags')
 call dein#add('terryma/vim-multiple-cursors')
 call dein#add('tpope/vim-repeat')
 call dein#add('honza/vim-snippets')
 call dein#add('bronson/vim-trailing-whitespace')
 " NeoBundleLazy	'Shougo/vimshell.vim'
-" NeoBundleLazy	'vimwiki/vimwiki'
 " --------
 call dein#add('gcmt/wildfire.vim')
 " --------
@@ -626,6 +624,7 @@ if (dein#is_sourced("YouCompleteMe"))
 	let g:ycm_key_list_select_completion = ['<Down>']
 	"let g:ycm_key_list_previous_completion=['<c-p>']
 	let g:ycm_key_list_previous_completion = ['<Up>']
+	let g:ycm_server_log_level = 'info'
 	let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
 	let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
 	let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
@@ -633,21 +632,31 @@ if (dein#is_sourced("YouCompleteMe"))
 	let g:ycm_collect_identifiers_from_tags_files = 1
 	let g:ycm_cache_omnifunc = 0
 	let g:ycm_show_diagnostics_ui = 0
-
-	" 跳转到定义处, 分屏打开
-	" let g:ycm_goto_buffer_command = 'horizontal-split'
+	let g:ycm_min_num_identifier_candidate_chars = 3
+	let g:ycm_key_invoke_completion = '<c-z>'
+	noremap <c-z> <NOP>
+	let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
 	nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-
 	"let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
-
 	" 引入可以补全系统，以及python的第三方包
 	let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-
 	" 黑名单,不启用
 	let g:ycm_filetype_blacklist = {
 				\ 'tagbar' : 1,
 				\ 'gitcommit' : 1,
+				\ 'txt' : 1,
 				\}
+	" let g:ycm_filetype_whitelist = {
+			" \ "c":1,
+			" \ "cpp":1,
+			" \ "h":1,
+			" \ "sh":1,
+			" \ "zsh":1,
+			" \ "py":1,
+			" \ }
 	" 错误和警告使用不同的标志
 	let g:ycm_error_symbol = '>>'
 	let g:ycm_warning_symbol = '>'
