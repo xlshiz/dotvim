@@ -665,7 +665,7 @@ if version >= 508 || !exists("did_c_syn_inits")
   hi OperatorBold	gui=bold guifg=#000000
   hi StdName		gui=bold guifg=#5276e6
   hi Name		gui=NONE guifg=#5276e6
-  hi BlockBraces	gui=bold guifg=#000000
+  " hi BlockBraces	gui=bold guifg=#000000
   " hi Special		gui=NONE guifg=#a000a0
   " hi Comment		gui=NONE guifg=grey62
   hi MicroController	gui=bold guifg=#d00000

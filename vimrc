@@ -3,7 +3,6 @@
 set all&			" Reset all
 if has('vim_starting')
 	set nocompatible		" Be iMproved
-	set runtimepath+=~/.vim/bundle/vim-plug
 endif
 call plug#begin(expand('~/.vim/bundle/'))
 
@@ -19,9 +18,11 @@ endif
 " --------completer--------
 if has('python')  || has('python3')
 	Plug 'Valloric/YouCompleteMe'
-else
+elseif has('timers')
 	Plug 'prabirshrestha/asyncomplete.vim'
 	Plug 'prabirshrestha/asyncomplete-file.vim'
+else
+	Plug 'Shougo/neocomplcache.vim'
 endif
 
 " --------coding--------
@@ -492,6 +493,11 @@ if has_key(g:plugs, "ctrlp.vim")
 	let g:ctrlp_cmd = "CtrlPHook"
 endif
 "}}}2
+" *ctrlsf {{{2
+let g:ctrlsf_auto_focus = {
+			\ "at": "start",
+			\ }
+"}}}2
 " *Doxy {{{2
 let g:DoxygenToolkit_briefTag_funcName = "yes"
 let g:DoxygenToolkit_briefTag_pre="@brief "
@@ -619,18 +625,14 @@ if has("win32")
 elseif has("unix")
 	if has('gui_running')
 		set guifont=Source\ Code\ Pro\ Medium\ 12
-		" colorscheme molokai
 		colorscheme gruvbox
+		" colorscheme molokai
 	else
-		if has('termguicolors')
-			" set termguicolors
-			set t_Co=256
-		else
-			set t_Co=256
-		endif
+		" set termguicolors
+		set t_Co=256
 		set background=dark
-		" colorscheme molokai
 		colorscheme gruvbox
+		" colorscheme molokai
 	endif
 else
 	echoerr "Unknow System"

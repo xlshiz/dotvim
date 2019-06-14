@@ -2,5 +2,4 @@
 _undo/
 ack*
 ag
-!bundle/repos/github.com/Shougo/dein.vim
 bundle/*
