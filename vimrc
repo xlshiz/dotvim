@@ -4,6 +4,13 @@ set all&			" Reset all
 if has('vim_starting')
 	set nocompatible		" Be iMproved
 endif
+function! s:Cond(cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+function! s:is_source(cond)
+	return has_key(g:plugs, a:cond)
+endfunction
 call plug#begin(expand('~/.vim/bundle/'))
 
 "*My Bundles {{{2
@@ -393,13 +400,13 @@ map <c-F4>	:SingleCompileRun<CR>
 map <leader>ag	:CtrlSF<CR>
 map <leader>ao	:CtrlSFOpen<CR>
 map <leader>aa	:CtrlSF 
-if has_key(g:plugs, "taglist.vim")
+if s:is_source("taglist.vim")
 	map <leader>2	:Tlist<CR>
 endif
-if has_key(g:plugs, "tagbar")
+if s:is_source("tagbar")
 	map <leader>2	:TagbarToggle<CR>
 endif
-if has_key(g:plugs, "ctrlp.vim")
+if s:is_source("ctrlp.vim")
 	map <leader>3	:CtrlPFiletag<cr>
 	map <leader>bb	:CtrlPBuffer<CR>
 endif
@@ -409,7 +416,7 @@ map <leader>l	:Tabularize /
 "}}}1
 " **Plugins Settings {{{1
 " *asyncomplete {{{2
-if has_key(g:plugs, "asyncomplete.vim")
+if s:is_source("asyncomplete.vim")
 	au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
 				\ 'name': 'file',
 				\ 'whitelist': ['*'],
@@ -453,7 +460,7 @@ endif
 set tags=tags,./tags,../tags
 "}}}2
 " *ctrlp {{{2
-if has_key(g:plugs, "ctrlp.vim")
+if s:is_source("ctrlp.vim")
 	let g:ctrlp_extensions = ['filetag']
 	let g:user_command_async = 1
 	let g:ctrlp_max_files = 0
@@ -514,7 +521,7 @@ let g:DoxygenToolkit_interCommentTag = "*"
 let g:DoxygenToolkit_interCommentBlock = "*"
 " *}}}2
 " *Easy-align {{{
-if has_key(g:plugs, "vim-easy-align")
+if s:is_source("vim-easy-align")
 	let g:easy_align_delimiters={}
 	au BufNewFile,BufRead *.c,*.cpp,*.h let g:easy_align_delimiters['d'] = { 'pattern': '\(const\|static\|struct\)\@<! ', 'left_margin': 0, 'right_margin': 0 }
 endif
@@ -525,7 +532,7 @@ map <leader>jj 	<Plug>(easymotion-sn)
 map <leader>jl 	<Plug>(easymotion-j)
 " }}}
 " *LeaderF {{{2
-if has_key(g:plugs, "LeaderF")
+if s:is_source("LeaderF")
 	let g:Lf_ShortcutF = '<C-P>'
 	let g:Lf_ShortcutB = '<leader>bb'
 	let g:Lf_CacheDirectory = $HOME."/.cache/"
@@ -558,7 +565,7 @@ let g:UltiSnipsJumpForwardTrigger  = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " }}}
 " *YCM {{{
-if has_key(g:plugs, "YouCompleteMe")
+if s:is_source("YouCompleteMe")
 	"youcompleteme  默认tab  s-tab 和自动补全冲突
 	"let g:ycm_key_list_select_completion=['<c-n>']
 	let g:ycm_key_list_select_completion = ['<Down>']
