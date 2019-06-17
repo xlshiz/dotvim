@@ -24,13 +24,25 @@ endif
 
 " --------completer--------
 if has('python')  || has('python3')
-	Plug 'Valloric/YouCompleteMe'
+	" Plug 'Valloric/YouCompleteMe'
+	Plug 'ncm2/ncm2'
+	Plug 'roxma/nvim-yarp'
+	Plug 'roxma/vim-hug-neovim-rpc'
+	Plug 'ncm2/ncm2-bufword'
+	Plug 'ncm2/ncm2-path'
+	Plug 'ncm2/ncm2-ultisnips'
+	Plug 'ncm2/ncm2-vim-lsp'
+	Plug 'ncm2/ncm2-vim',{'for':'vim'}
+	Plug 'Shougo/neco-vim',{'for':'vim'}
 elseif has('timers')
 	Plug 'prabirshrestha/asyncomplete.vim'
 	Plug 'prabirshrestha/asyncomplete-file.vim'
+	Plug 'prabirshrestha/asyncomplete-lsp.vim'
 else
 	Plug 'Shougo/neocomplcache.vim'
 endif
+	Plug 'prabirshrestha/async.vim'
+	Plug 'prabirshrestha/vim-lsp'
 
 " --------coding--------
 Plug 'w0rp/ale'
@@ -41,7 +53,7 @@ Plug 'vim-scripts/matchit.zip'
 Plug 'scrooloose/nerdcommenter'
 Plug 'xuhdev/SingleCompile', {'on': 'SingleCompile'}
 Plug 'majutsushi/tagbar'
-" NeoBundleLazy	'taglist.vim'
+" Plug 'vim-scripts/taglist.vim'
 Plug 'gcmt/wildfire.vim'
 
 " --------ui--------
@@ -124,7 +136,7 @@ set incsearch				"打开递进式搜索
 set hls					"高亮显示搜索匹配
 set ambiwidth=double
 set sessionoptions+=unix,slash		"设置会话文件的格式
-set completeopt=longest,menu		"设置全能补全不产生预览窗口
+set completeopt=noinsert,menuone,noselect
 set wildmenu				"状态栏提示预览
 set wildmode=longest:full		"和下边的选项配合，命令行输入的时候，tab不补全，只进行预览。
 set scrolloff=3				"滚屏是光标上下保留的行数
@@ -441,6 +453,21 @@ let g:airline#extensions#tagbar#enabled = 0
 " *auto-pair {{{2
 let g:AutoPairsFlyMode = 1
 "}}}2
+" *coc {{{2
+if s:is_source("coc.nvim")
+	set updatetime=300
+	" Use K to show documentation in preview window
+	nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+	function! s:show_documentation()
+		if (index(['vim','help'], &filetype) >= 0)
+			execute 'h '.expand('<cword>')
+		else
+			call CocAction('doHover')
+		endif
+	endfunction
+endif
+"}}}2
 " *Cscope {{{2
 if has("cscope")
 	set csto=1
@@ -541,6 +568,11 @@ if s:is_source("LeaderF")
 	autocmd VimLeave * call RemoveOverTimeFiles(14, $HOME.'/.cache/.LfCache')
 endif
 "}}}2
+" *ncm2 {{{2
+if s:is_source("ncm2")
+	autocmd BufEnter * call ncm2#enable_for_buffer()
+endif
+"}}}2
 " *NERDCommenter {{{2
 let NERDSpaceDelims = 1
 "}}}2
@@ -563,6 +595,19 @@ let Tlist_Enable_Fold_Column=0
 let g:UltiSnipsExpandTrigger       = "<tab>"
 let g:UltiSnipsJumpForwardTrigger  = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" }}}
+" *vim-lsp {{{
+if s:is_source("vim-lsp")
+	if executable('ccls')
+		au User lsp_setup call lsp#register_server({
+					\ 'name': 'ccls',
+					\ 'cmd': {server_info->['ccls']},
+					\ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+					\ 'initialization_options': {},
+					\ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+					\ })
+	endif
+endif
 " }}}
 " *YCM {{{
 if s:is_source("YouCompleteMe")
