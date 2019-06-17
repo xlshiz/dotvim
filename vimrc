@@ -83,6 +83,7 @@ Plug 'docunext/closetag.vim', {'for': ['html', 'xml']}			" html标签配对
 Plug 'tpope/vim-surround', {'for': ['html', 'xml']}
 Plug 'plasticboy/vim-markdown', {'for': ['md', 'markdown']}
 Plug 'jceb/vim-orgmode', {'for': 'org'}
+Plug 'tpope/vim-speeddating', {'for': 'org'}
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'python'}
