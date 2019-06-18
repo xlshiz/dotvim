@@ -1,5 +1,5 @@
-" **vim-plug {{{1
-" *Settings {{{2
+" ** vim-plug {{{1
+" * Settings {{{2
 set all&			" Reset all
 if has('vim_starting')
 	set nocompatible		" Be iMproved
@@ -13,7 +13,7 @@ function! s:is_source(cond)
 endfunction
 call plug#begin(expand('~/.vim/bundle/'))
 
-"*My Bundles {{{2
+"* My Bundles {{{2
 " --------finder--------
 if has('python')  || has('python3')
 	Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
@@ -25,9 +25,11 @@ endif
 " --------completer--------
 if has('python')  || has('python3')
 	" Plug 'Valloric/YouCompleteMe'
-	Plug 'ncm2/ncm2'
 	Plug 'roxma/nvim-yarp'
-	Plug 'roxma/vim-hug-neovim-rpc'
+	if !has('nvim')
+		Plug 'roxma/vim-hug-neovim-rpc'
+	endif
+	Plug 'ncm2/ncm2'
 	Plug 'ncm2/ncm2-bufword'
 	Plug 'ncm2/ncm2-path'
 	Plug 'ncm2/ncm2-ultisnips'
@@ -91,7 +93,7 @@ Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'python'}
 call plug#end()
 "}}}2
 "}}}1
-" *Settings {{{1
+" * Settings {{{1
 if has('gui_running')
 	source $VIMRUNTIME/mswin.vim
 	unmap  <C-Y>
@@ -171,7 +173,7 @@ if executable('ag')
 	set grepprg=ag\ --nogroup\ --nocolor
 endif
 "}}}1
-" *Nice Window Title {{{1
+" * Nice Window Title {{{1
 if has('title') && (has('gui_running') || &title)
 	set titlestring=
 	set titlestring+=%f\ 			"file name
@@ -179,7 +181,7 @@ if has('title') && (has('gui_running') || &title)
 	set titlestring+=\ -\ %{v:progname} 	"program name
 endif
 "}}}1
-" *Encoding {{{1
+" * Encoding {{{1
 set formatoptions+=Mm	"正确地处理中文字符的折行和拼接
 set encoding=utf-8
 set langmenu=zh_CN.UTF-8
@@ -187,7 +189,7 @@ language message zh_CN.UTF-8
 "set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,default
 "}}}1
-" *Fix Cursor in TMUX {{{1
+" * Fix Cursor in TMUX {{{1
 if exists('$TMUX')
 	let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 	let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -196,7 +198,7 @@ else
 	let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 "}}}1
-" *My Modes {{{1
+" * My Modes {{{1
 function EnglishMode()
 	setlocal shiftwidth=8
 	setlocal tabstop=8
@@ -257,7 +259,7 @@ else
 	set smartindent
 endif
 "}}}1
-" *My Functions {{{1
+" * My Functions {{{1
 function CreatCtags(flag)
 	if has("win32")
 		let bs = "\\"
@@ -381,7 +383,7 @@ function MyDiff()
 	silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
 "}}}1
-" *Key Maps{{{1
+" * Key Maps{{{1
 map <c-h>	<c-w>h
 map <c-j>	<c-w>j
 map <c-k>	<c-w>k
@@ -427,8 +429,8 @@ map <leader>td	:NERDTreeToggle<CR>
 map <leader>tf	:NERDTreeFind<CR>
 map <leader>l	:Tabularize /
 "}}}1
-" **Plugins Settings {{{1
-" *asyncomplete {{{2
+" ** Plugins Settings {{{1
+" * asyncomplete {{{2
 if s:is_source("asyncomplete.vim")
 	au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
 				\ 'name': 'file',
@@ -438,7 +440,7 @@ if s:is_source("asyncomplete.vim")
 				\ }))
 endif
 "}}}2
-" *airline {{{2
+" * airline {{{2
 set laststatus=2
 if !exists('g:airline_symbols')
 let g:airline_symbols = {}
@@ -451,10 +453,10 @@ let g:airline_section_z = '(%3.10l,%3.10v):%2B'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tagbar#enabled = 0
 "}}}2
-" *auto-pair {{{2
-let g:AutoPairsFlyMode = 1
+" * auto-pair {{{2
+let g:AutoPairsFlyMode = 0
 "}}}2
-" *coc {{{2
+" * coc {{{2
 if s:is_source("coc.nvim")
 	set updatetime=300
 	" Use K to show documentation in preview window
@@ -469,7 +471,7 @@ if s:is_source("coc.nvim")
 	endfunction
 endif
 "}}}2
-" *Cscope {{{2
+" * Cscope {{{2
 if has("cscope")
 	set csto=1
 	set cst
@@ -484,10 +486,10 @@ if has("cscope")
 	nmap <C-\>k :cs kill 0<CR>						"
 endif
 "}}}2
-" *Ctags {{{2
+" * Ctags {{{2
 set tags=tags,./tags,../tags
 "}}}2
-" *ctrlp {{{2
+" * ctrlp {{{2
 if s:is_source("ctrlp.vim")
 	let g:ctrlp_extensions = ['filetag']
 	let g:user_command_async = 1
@@ -528,12 +530,12 @@ if s:is_source("ctrlp.vim")
 	let g:ctrlp_cmd = "CtrlPHook"
 endif
 "}}}2
-" *ctrlsf {{{2
+" * ctrlsf {{{2
 let g:ctrlsf_auto_focus = {
 			\ "at": "start",
 			\ }
 "}}}2
-" *Doxy {{{2
+" * Doxy {{{2
 let g:DoxygenToolkit_briefTag_funcName = "yes"
 let g:DoxygenToolkit_briefTag_pre="@brief "
 let g:DoxygenToolkit_briefTag_post = "- "
@@ -548,18 +550,18 @@ let g:DoxygenToolkit_startCommentBlock = "/*"
 let g:DoxygenToolkit_interCommentTag = "*"
 let g:DoxygenToolkit_interCommentBlock = "*"
 " *}}}2
-" *Easy-align {{{
+" * Easy-align {{{
 if s:is_source("vim-easy-align")
 	let g:easy_align_delimiters={}
 	au BufNewFile,BufRead *.c,*.cpp,*.h let g:easy_align_delimiters['d'] = { 'pattern': '\(const\|static\|struct\)\@<! ', 'left_margin': 0, 'right_margin': 0 }
 endif
 " }}}
-" *vim-easymotion {{{
+" * vim-easymotion {{{
 map <leader>j	<Plug>(easymotion-prefix)
 map <leader>jj 	<Plug>(easymotion-sn)
 map <leader>jl 	<Plug>(easymotion-j)
 " }}}
-" *LeaderF {{{2
+" * LeaderF {{{2
 if s:is_source("LeaderF")
 	let g:Lf_ShortcutF = '<C-P>'
 	let g:Lf_ShortcutB = '<leader>bb'
@@ -569,21 +571,26 @@ if s:is_source("LeaderF")
 	autocmd VimLeave * call RemoveOverTimeFiles(14, $HOME.'/.cache/.LfCache')
 endif
 "}}}2
-" *ncm2 {{{2
+" * ncm2 {{{2
 if s:is_source("ncm2")
 	autocmd BufEnter * call ncm2#enable_for_buffer()
 endif
 "}}}2
-" *NERDCommenter {{{2
+" * neocomplcache {{{2
+if s:is_source("neocomplcache.vim")
+	let g:neocomplcache_enable_at_startup = 1
+endif
+"}}}2
+" * NERDCommenter {{{2
 let NERDSpaceDelims = 1
 "}}}2
-" *Tagbar {{{2
+" * Tagbar {{{2
 let g:tagbar_autofocus = 1
 let g:tagbar_foldlevel = 2
 let g:tagbar_sort = 0
 " let g:tagbar_ctags_bin = '/usr/bin/ctags'
 "}}}2
-" *Tlist {{{2
+" * Tlist {{{2
 let Tlist_GainFocus_On_ToggleOpen = 1
 let Tlist_File_Fold_Auto_Close=1
 " let Tlist_Exit_OnlyWindow=1
@@ -592,12 +599,12 @@ let Tlist_Use_Right_Window = 1
 let Tlist_Compact_Format=1
 let Tlist_Enable_Fold_Column=0
 "}}}2
-" *UltiSnips {{{
+" * UltiSnips {{{
 let g:UltiSnipsExpandTrigger       = "<tab>"
 let g:UltiSnipsJumpForwardTrigger  = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " }}}
-" *vim-lsp {{{
+" * vim-lsp {{{
 if s:is_source("vim-lsp")
 	if executable('ccls')
 		au User lsp_setup call lsp#register_server({
@@ -610,7 +617,7 @@ if s:is_source("vim-lsp")
 	endif
 endif
 " }}}
-" *YCM {{{
+" * YCM {{{
 if s:is_source("YouCompleteMe")
 	"youcompleteme  默认tab  s-tab 和自动补全冲突
 	"let g:ycm_key_list_select_completion=['<c-n>']
@@ -663,7 +670,7 @@ if s:is_source("YouCompleteMe")
 endif
 "}}}
 "}}}1
-" *Platform(Linux and Win) {{{1
+" * Platform(Linux and Win) {{{1
 if has("win32")
 	set guifont=Courier_New:h12
 	set background=dark
