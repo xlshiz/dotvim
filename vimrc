@@ -4,9 +4,12 @@ set all&			" Reset all
 if has('vim_starting')
 	set nocompatible		" Be iMproved
 endif
-function! s:Cond(cond, ...)
-  let opts = get(a:000, 0, {})
-  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+function! Rc_plug_cond(cond, ...)
+	let opts = get(a:000, 0, {})
+	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+function! Rc_plug_test(cond)
+	return a:cond ? {} : { 'on': [], 'for': [] }
 endfunction
 function! s:is_source(cond)
 	return has_key(g:plugs, a:cond)
@@ -217,7 +220,7 @@ function AsmMode()
 	setlocal syntax=asmx86
 endfunction
 
-function CMode()
+function CPPMode()
 	setlocal shiftwidth=4
 	setlocal tabstop=4
 	setlocal cindent
@@ -225,7 +228,7 @@ function CMode()
 	set listchars=tab:▸\ ,trail:▫
 	" autocmd BufWritePre *.c FixWhitespace
 endfunction
-command -nargs=0 CMode call CMode()
+command -nargs=0 CPPMode call CPPMode()
 
 function KernelMode()
 	setlocal cindent
@@ -233,6 +236,7 @@ function KernelMode()
 	setlocal tw=78
 	set list 				"显示空白字符
 	set listchars=tab:▸\ ,trail:▫
+	au BufNewFile,BufRead *.h set filetype=c
 	" autocmd BufWritePre *.c FixWhitespace
 endfunction
 command -nargs=0 KernelMode call KernelMode()
@@ -250,9 +254,10 @@ syntax on
 filetype on
 filetype plugin indent on
 if has("autocmd")
-	au BufNewFile,BufRead *.s,*.S call SMode()
+	au BufNewFile,BufReadPre *.s,*.S call SMode()
 	au BufNewFile,BufReadPre *.asm call AsmMode()
-	au BufNewFile,BufRead *.[ch],*.cpp,*.cc call KernelMode()
+	au BufNewFile,BufReadPre *.[ch] call KernelMode()
+	au BufNewFile,BufReadPre *.cpp,*.cc call CPPMode()
 	" au BufNewFile,BufRead *.py call PyMode()
 else
 	set autoindent
@@ -453,8 +458,12 @@ let g:airline_section_z = '(%3.10l,%3.10v):%2B'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tagbar#enabled = 0
 "}}}2
+" * ale {{{2
+let g:ale_disable_lsp = 1
+"}}}2
 " * auto-pair {{{2
 let g:AutoPairsFlyMode = 0
+au FileType c let b:AutoPairs = AutoPairsDefine({'/*': '*/'})
 "}}}2
 " * coc {{{2
 if s:is_source("coc.nvim")
@@ -574,6 +583,8 @@ endif
 " * ncm2 {{{2
 if s:is_source("ncm2")
 	autocmd BufEnter * call ncm2#enable_for_buffer()
+	" au TextChangedI * call ncm2#auto_trigger()
+	inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 endif
 "}}}2
 " * neocomplcache {{{2
@@ -588,7 +599,21 @@ let NERDSpaceDelims = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_foldlevel = 2
 let g:tagbar_sort = 0
+let g:tagbar_autoshowtag = 2
 " let g:tagbar_ctags_bin = '/usr/bin/ctags'
+let g:tagbar_type_c = {
+			\ 'kinds' : [
+			\ 'd:macros:1:0',
+			\ 'p:prototypes:1:0',
+			\ 'f:functions:0:0',
+			\ 'v:variables:1:0',
+			\ 't:typedefs:1:0',
+			\ 'g:enums:1:0',
+			\ 'e:enumerators:1:0',
+			\ 'u:unions:1:0',
+			\ 's:structs:1:0',
+			\ ],
+			\ }
 "}}}2
 " * Tlist {{{2
 let Tlist_GainFocus_On_ToggleOpen = 1
@@ -600,12 +625,20 @@ let Tlist_Compact_Format=1
 let Tlist_Enable_Fold_Column=0
 "}}}2
 " * UltiSnips {{{
-let g:UltiSnipsExpandTrigger       = "<tab>"
-let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+if s:is_source("ultisnips")
+	let g:UltiSnipsExpandTrigger       = "<tab>"
+	let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+	let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+endif
 " }}}
 " * vim-lsp {{{
 if s:is_source("vim-lsp")
+	let g:lsp_diagnostics_enabled = 0
+	let g:lsp_diagnostics_echo_cursor = 1
+	let g:lsp_highlights_enabled = 1
+	let g:lsp_textprop_enabled = 1
+	let g:lsp_signs_enabled = 1
+	let g:lsp_highlight_references_enabled = 0
 	if executable('ccls')
 		au User lsp_setup call lsp#register_server({
 					\ 'name': 'ccls',
