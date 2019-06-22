@@ -26,7 +26,9 @@ else
 endif
 
 " --------completer--------
-if has('python')  || has('python3')
+if executable('node')
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+elseif has('python')  || has('python3')
 	" Plug 'Valloric/YouCompleteMe'
 	Plug 'roxma/nvim-yarp'
 	if !has('nvim')
@@ -37,17 +39,14 @@ if has('python')  || has('python3')
 	Plug 'ncm2/ncm2-path'
 	Plug 'ncm2/ncm2-ultisnips'
 	Plug 'ncm2/ncm2-vim-lsp'
+	Plug 'ncm2/ncm2-pyclang', {'for': 'c'}
 	Plug 'ncm2/ncm2-vim',{'for':'vim'}
 	Plug 'Shougo/neco-vim',{'for':'vim'}
-elseif has('timers')
-	Plug 'prabirshrestha/asyncomplete.vim'
-	Plug 'prabirshrestha/asyncomplete-file.vim'
-	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+	" Plug 'prabirshrestha/async.vim'
+	" Plug 'prabirshrestha/vim-lsp'
 else
 	Plug 'Shougo/neocomplcache.vim'
 endif
-	Plug 'prabirshrestha/async.vim'
-	Plug 'prabirshrestha/vim-lsp'
 
 " --------coding--------
 Plug 'w0rp/ale'
@@ -61,13 +60,12 @@ Plug 'majutsushi/tagbar'
 " Plug 'vim-scripts/taglist.vim'
 Plug 'gcmt/wildfire.vim'
 
-" --------ui--------
+" " --------ui--------
 Plug 'morhetz/gruvbox'
 Plug 'tomasr/molokai'
 Plug 'bling/vim-airline'
-" Plug 'altercation/vim-colors-solarized'
 
-" --------other--------
+" " --------other--------
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-scripts/DrawIt', {'on': 'DIstart'}
 Plug 'h-youhei/vim-fcitx'
@@ -83,7 +81,7 @@ Plug 'tpope/vim-repeat'
 Plug 'xlshiz/vim-snippets'
 Plug 'bronson/vim-trailing-whitespace'
 
-" --------language--------
+" " --------language--------
 Plug 'docunext/closetag.vim', {'for': ['html', 'xml']}			" html标签配对
 Plug 'tpope/vim-surround', {'for': ['html', 'xml']}
 Plug 'plasticboy/vim-markdown', {'for': ['md', 'markdown']}
@@ -460,10 +458,13 @@ let g:airline#extensions#tagbar#enabled = 0
 "}}}2
 " * ale {{{2
 let g:ale_disable_lsp = 1
+let g:ale_linters_explicit = 1
 "}}}2
 " * auto-pair {{{2
-let g:AutoPairsFlyMode = 0
-au FileType c let b:AutoPairs = AutoPairsDefine({'/*': '*/'})
+if s:is_source("auto-pairs")
+	let g:AutoPairsFlyMode = 0
+	au FileType c let b:AutoPairs = AutoPairsDefine({'/*': '*/'})
+endif
 "}}}2
 " * coc {{{2
 if s:is_source("coc.nvim")
@@ -583,8 +584,9 @@ endif
 " * ncm2 {{{2
 if s:is_source("ncm2")
 	autocmd BufEnter * call ncm2#enable_for_buffer()
-	" au TextChangedI * call ncm2#auto_trigger()
+	au TextChangedI * call ncm2#auto_trigger()
 	inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+	inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 endif
 "}}}2
 " * neocomplcache {{{2
