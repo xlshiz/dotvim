@@ -28,8 +28,9 @@ endif
 " --------completer--------
 if executable('node')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'Shougo/neco-vim'
+	Plug 'neoclide/coc-neco'
 elseif has('python')  || has('python3')
-	" Plug 'Valloric/YouCompleteMe'
 	Plug 'roxma/nvim-yarp'
 	if !has('nvim')
 		Plug 'roxma/vim-hug-neovim-rpc'
@@ -38,10 +39,10 @@ elseif has('python')  || has('python3')
 	Plug 'ncm2/ncm2-bufword'
 	Plug 'ncm2/ncm2-path'
 	Plug 'ncm2/ncm2-ultisnips'
-	Plug 'ncm2/ncm2-vim-lsp'
 	Plug 'ncm2/ncm2-pyclang', {'for': 'c'}
 	Plug 'ncm2/ncm2-vim',{'for':'vim'}
 	Plug 'Shougo/neco-vim',{'for':'vim'}
+	" Plug 'ncm2/ncm2-vim-lsp'
 	" Plug 'prabirshrestha/async.vim'
 	" Plug 'prabirshrestha/vim-lsp'
 else
@@ -157,6 +158,9 @@ set novisualbell         		" 蜂鸣器静音
 set noerrorbells         		" 蜂鸣器静音
 set hidden
 set shortmess+=c
+if has('signs')
+	set signcolumn=yes
+endif
 
 " 重启后撤销历史可用 persistent undo
 let s:undo_cache_dir=$HOME.'/.cache/vim_undo'
@@ -459,10 +463,12 @@ let g:airline#extensions#tagbar#enabled = 0
 " * ale {{{2
 let g:ale_disable_lsp = 1
 let g:ale_linters_explicit = 1
+let g:ale_sign_column_always = 1
 "}}}2
 " * auto-pair {{{2
 if s:is_source("auto-pairs")
 	let g:AutoPairsFlyMode = 0
+	let g:AutoPairsMapCR = 0
 	au FileType c let b:AutoPairs = AutoPairsDefine({'/*': '*/'})
 endif
 "}}}2
@@ -470,8 +476,6 @@ endif
 if s:is_source("coc.nvim")
 	set updatetime=300
 	" Use K to show documentation in preview window
-	nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 	function! s:show_documentation()
 		if (index(['vim','help'], &filetype) >= 0)
 			execute 'h '.expand('<cword>')
@@ -479,6 +483,25 @@ if s:is_source("coc.nvim")
 			call CocAction('doHover')
 		endif
 	endfunction
+	nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+	" use <tab> for trigger completion and navigate to the next complete item
+	function! s:coc_confirm()
+		let hasSelected = coc#rpc#request('hasSelected', [])
+		if hasSelected | return "\<C-y>" | endif
+		return "\<C-g>u\<CR>\<c-r>=AutoPairsReturn()\<CR>"
+	endfunction
+	inoremap <silent><expr> <cr> pumvisible() ? <SID>coc_confirm() :
+					   \"\<C-g>u\<CR>\<c-r>=AutoPairsReturn()\<CR>"
+	let g:coc_snippet_next = '<tab>'
+	let g:coc_snippet_prev = '<s-tab>'
+	imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+	nmap <leader>rn <Plug>(coc-rename)
+	nmap <silent> [c <Plug>(coc-diagnostic-prev)
+	nmap <silent> ]c <Plug>(coc-diagnostic-next)
+	nmap <silent> gd <Plug>(coc-definition)
+	nmap <silent> gD <Plug>(coc-references)
 endif
 "}}}2
 " * Cscope {{{2
@@ -585,8 +608,9 @@ endif
 if s:is_source("ncm2")
 	autocmd BufEnter * call ncm2#enable_for_buffer()
 	au TextChangedI * call ncm2#auto_trigger()
-	inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-	inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+	inoremap <silent> <Plug>(MyCR) <CR><C-R>=AutoPairsReturn()<CR>
+	" imap <expr> <CR> (pumvisible() ? "\<C-N>\<Plug>(MyCR)" : "\<Plug>(MyCR)")
+	inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<Plug>(MyCR)", 'im')
 endif
 "}}}2
 " * neocomplcache {{{2
