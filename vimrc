@@ -62,7 +62,7 @@ Plug 'majutsushi/tagbar'
 Plug 'gcmt/wildfire.vim'
 
 " " --------ui--------
-Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'tomasr/molokai'
 Plug 'bling/vim-airline'
 
