@@ -419,9 +419,9 @@ endif
 " =====================
 map <F4>	:SingleCompile<CR>
 map <c-F4>	:SingleCompileRun<CR>
-map <leader>ag	:CtrlSF<CR>
-map <leader>ao	:CtrlSFOpen<CR>
-map <leader>aa	:CtrlSF 
+map <leader>pp	:CtrlSF<CR>
+map <leader>po	:CtrlSFOpen<CR>
+map <leader>p/	:CtrlSF 
 if s:is_source("taglist.vim")
 	map <leader>2	:Tlist<CR>
 endif
@@ -498,8 +498,8 @@ if s:is_source("coc.nvim")
 	imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 	nmap <leader>rn <Plug>(coc-rename)
-	nmap <silent> [c <Plug>(coc-diagnostic-prev)
-	nmap <silent> ]c <Plug>(coc-diagnostic-next)
+	nmap <silent> [e <Plug>(coc-diagnostic-prev)
+	nmap <silent> ]e <Plug>(coc-diagnostic-next)
 	nmap <silent> gd <Plug>(coc-definition)
 	nmap <silent> gD <Plug>(coc-references)
 endif
@@ -596,8 +596,8 @@ map <leader>jl 	<Plug>(easymotion-j)
 " }}}
 " * LeaderF {{{2
 if s:is_source("LeaderF")
-	let g:Lf_ShortcutF = '<C-P>'
-	let g:Lf_ShortcutB = '<leader>bb'
+	let g:Lf_ShortcutF = '<leader>a'
+	let g:Lf_ShortcutB = '<leader>e'
 	let g:Lf_CacheDirectory = $HOME."/.cache/"
 	let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.projectile', 'compile_commands.json']
 	let g:Lf_WorkingDirectoryMode = 'Ac'
