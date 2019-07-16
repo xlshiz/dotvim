@@ -53,7 +53,7 @@ endif
 Plug 'w0rp/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'xlshiz/DoxygenToolkit.vim', {'on': 'Dox'}
-Plug 'vim-scripts/Mark'
+Plug 'xlshiz/Mark'
 Plug 'vim-scripts/matchit.zip'
 Plug 'scrooloose/nerdcommenter'
 Plug 'xuhdev/SingleCompile', {'on': 'SingleCompile'}
@@ -404,7 +404,7 @@ map \d		<c-w>c
 map <leader>bd	:bd!<CR>
 imap <c-f>	<c-o>f
 map <leader>fs	:up<CR>
-map <leader>q	:qa!<CR>
+map <leader>qq	:qa!<CR>
 map <leader>x	:xa<CR>
 map <leader>44	:call CreatCtags(1)<CR><CR>
 map <leader>43	:call CreatCtags(2)<CR><CR>
@@ -419,18 +419,14 @@ endif
 " =====================
 map <F4>	:SingleCompile<CR>
 map <c-F4>	:SingleCompileRun<CR>
-map <leader>pp	:CtrlSF<CR>
-map <leader>po	:CtrlSFOpen<CR>
-map <leader>p/	:CtrlSF 
+map <leader>*	:CtrlSF<CR>
+map <leader>/o	:CtrlSFOpen<CR>
+map <leader>//	:CtrlSF 
 if s:is_source("taglist.vim")
 	map <leader>2	:Tlist<CR>
 endif
 if s:is_source("tagbar")
 	map <leader>2	:TagbarToggle<CR>
-endif
-if s:is_source("ctrlp.vim")
-	map <leader>3	:CtrlPFiletag<cr>
-	map <leader>bb	:CtrlPBuffer<CR>
 endif
 map <leader>td	:NERDTreeToggle<CR>
 map <leader>tf	:NERDTreeFind<CR>
@@ -561,6 +557,9 @@ if s:is_source("ctrlp.vim")
 	endfunc
 	command -nargs=0 CtrlPHook call CtrlPHook()
 	let g:ctrlp_cmd = "CtrlPHook"
+	let g:ctrlp_map = "<leaer>a"
+	map <leader>3	:CtrlPFiletag<cr>
+	map <leader>bb	:CtrlPBuffer<CR>
 endif
 "}}}2
 " * ctrlsf {{{2
@@ -597,11 +596,15 @@ map <leader>jl 	<Plug>(easymotion-j)
 " * LeaderF {{{2
 if s:is_source("LeaderF")
 	let g:Lf_ShortcutF = '<leader>a'
-	let g:Lf_ShortcutB = '<leader>e'
+	let g:Lf_ShortcutB = '<leader>bb'
 	let g:Lf_CacheDirectory = $HOME."/.cache/"
 	let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.projectile', 'compile_commands.json']
 	let g:Lf_WorkingDirectoryMode = 'Ac'
 	autocmd VimLeave * call RemoveOverTimeFiles(14, $HOME.'/.cache/.LfCache')
+endif
+"}}}2
+" * Mark {{{2
+if s:is_source("Mark")
 endif
 "}}}2
 " * ncm2 {{{2
