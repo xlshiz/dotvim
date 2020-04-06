@@ -8,5 +8,6 @@
 			"initializationOptions": {
 			}
 		}
-	}
+	},
+	"vetur.validation.template": false
 }

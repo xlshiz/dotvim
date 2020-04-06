@@ -91,6 +91,7 @@ Plug 'tpope/vim-speeddating', {'for': 'org'}
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
 Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'python'}
+Plug 'posva/vim-vue', {'for': 'vue'}
 
 call plug#end()
 "}}}2
