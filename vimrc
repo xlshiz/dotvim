@@ -732,6 +732,11 @@ if s:is_source("YouCompleteMe")
 	let g:ycm_warning_symbol = '>'
 endif
 "}}}
+" * Markdown {{{
+if s:is_source("vim-markdown")
+	let g:vim_markdown_folding_disabled = 1
+endif
+"}}}
 "}}}1
 " * Platform(Linux and Win) {{{1
 if has("win32")
