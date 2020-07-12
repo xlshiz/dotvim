@@ -7,6 +7,17 @@
 			"rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
 			"initializationOptions": {
 			}
+		},
+		"go": {
+			"command": "gopls",
+			"rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+			"filetypes": ["go"],
+			"initializationOptions": {
+				"usePlaceholders": true
+			},
+			"disabled": {
+				"workspaceFolders": true
+			}
 		}
 	},
 	"vetur.validation.template": false
