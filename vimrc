@@ -69,7 +69,7 @@ Plug 'bling/vim-airline'
 " " --------other--------
 Plug 'dyng/ctrlsf.vim'
 Plug 'vim-scripts/DrawIt', {'on': 'DIstart'}
-Plug 'h-youhei/vim-fcitx'
+Plug 'lilydjwg/fcitx.vim'
 Plug 'scrooloose/nerdtree'
 if has('python')  || has('python3')
 	Plug 'SirVer/ultisnips'
@@ -735,6 +735,11 @@ endif
 " * Markdown {{{
 if s:is_source("vim-markdown")
 	let g:vim_markdown_folding_disabled = 1
+endif
+"}}}
+" * fcitx {{{
+if s:is_source("fcitx.vim")
+	set ttimeoutlen=100
 endif
 "}}}
 "}}}1
