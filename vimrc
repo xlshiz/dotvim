@@ -601,6 +601,7 @@ if s:is_source("LeaderF")
 	let g:Lf_CacheDirectory = $HOME."/.cache/"
 	let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.projectile', 'compile_commands.json']
 	let g:Lf_WorkingDirectoryMode = 'Ac'
+	let g:Lf_ShowDevIcons = 0
 	autocmd VimLeave * call RemoveOverTimeFiles(14, $HOME.'/.cache/.LfCache')
 endif
 "}}}2
