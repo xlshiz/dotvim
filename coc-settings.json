@@ -1,13 +1,19 @@
 {
 	"snippets.ultisnips.enable": false,
+	"snippets.ultisnips.usePythonx": false,
 	"languageserver": {
-		"ccls": {
-			"command": "ccls",
-			"filetypes": ["c", "cpp", "objc", "objcpp"],
-			"rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
-			"initializationOptions": {
-			}
-		},
+		"clangd":
+                  {
+                          "command": "clangd",
+                          "rootPatterns": ["compile_flags.txt",
+                                          "compile_commands.json"],
+                          "filetypes":["c",
+                                          "cc",
+                                          "cpp",
+                                          "c++",
+                                          "objc",
+                                          "objcpp"]
+                  },
 		"go": {
 			"command": "gopls",
 			"rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],

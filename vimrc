@@ -28,8 +28,6 @@ endif
 " --------completer--------
 if executable('node')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	Plug 'Shougo/neco-vim'
-	Plug 'neoclide/coc-neco'
 elseif has('python')  || has('python3')
 	Plug 'roxma/nvim-yarp'
 	if !has('nvim')
@@ -122,7 +120,6 @@ if has('mouse')				"如果该Vim支持鼠标，则启用鼠标支持
 		set ttymouse=xterm2
 	endif
 endif
-let mapleader = ","			"设置导键
 let mapleader = "\<space>"			"设置导键
 set wak=no				"alt键盘不作为菜单选择快捷键使用
 set showcmd				"显示输入过的命令
