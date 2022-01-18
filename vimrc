@@ -28,6 +28,8 @@ endif
 " --------completer--------
 if executable('node')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'Shougo/neco-vim'
+	Plug 'neoclide/coc-neco'
 elseif has('python')  || has('python3')
 	Plug 'roxma/nvim-yarp'
 	if !has('nvim')
@@ -120,6 +122,7 @@ if has('mouse')				"如果该Vim支持鼠标，则启用鼠标支持
 		set ttymouse=xterm2
 	endif
 endif
+let mapleader = ","			"设置导键
 let mapleader = "\<space>"			"设置导键
 set wak=no				"alt键盘不作为菜单选择快捷键使用
 set showcmd				"显示输入过的命令
@@ -250,6 +253,15 @@ function PyMode()
 	set listchars=tab:▸\ ,trail:▫
 endfunction
 
+function JsMode()
+	setlocal tabstop=2
+	setlocal shiftwidth=2
+	setlocal expandtab
+	setlocal autoindent
+	set list 				"现实空白字符
+	set listchars=tab:▸\ ,trail:▫
+endfunction
+
 syntax on
 filetype on
 filetype plugin indent on
@@ -259,6 +271,7 @@ if has("autocmd")
 	au BufNewFile,BufReadPre *.[ch] call KernelMode()
 	au BufNewFile,BufReadPre *.cpp,*.cc call CPPMode()
 	" au BufNewFile,BufRead *.py call PyMode()
+	au BufNewFile,BufRead *.js call JsMode()
 else
 	set autoindent
 	set smartindent
@@ -428,7 +441,8 @@ if s:is_source("tagbar")
 endif
 map <leader>td	:NERDTreeToggle<CR>
 map <leader>tf	:NERDTreeFind<CR>
-map <leader>l	:Tabularize /
+nmap gcc	:call NERDComment("n", "Toggle")<CR>
+vmap gc		:call NERDComment("v", "Toggle")<CR>
 "}}}1
 " ** Plugins Settings {{{1
 " * asyncomplete {{{2
@@ -622,6 +636,7 @@ endif
 "}}}2
 " * NERDCommenter {{{2
 let NERDSpaceDelims = 1
+let g:NERDCreateDefaultMappings = 0
 "}}}2
 " * Tagbar {{{2
 let g:tagbar_autofocus = 1

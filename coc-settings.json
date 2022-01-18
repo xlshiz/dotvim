@@ -1,22 +1,28 @@
 {
 	"snippets.ultisnips.enable": false,
 	"snippets.ultisnips.usePythonx": false,
+	"snippets.snipmate.enable": true,
 	"languageserver": {
 		"clangd":
-                  {
-                          "command": "clangd",
-                          "rootPatterns": ["compile_flags.txt",
-                                          "compile_commands.json"],
-                          "filetypes":["c",
-                                          "cc",
-                                          "cpp",
-                                          "c++",
-                                          "objc",
-                                          "objcpp"]
-                  },
+		{
+			"command": "clangd",
+			"rootPatterns": [
+				"compile_flags.txt",
+				"compile_commands.json",
+				".git/"
+			],
+			"filetypes":[
+				"c",
+				"cc",
+				"cpp",
+				"c++",
+				"objc",
+				"objcpp"
+			]
+		},
 		"go": {
 			"command": "gopls",
-			"rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+			"rootPatterns": ["go.mod", ".git/", ".hg/"],
 			"filetypes": ["go"],
 			"initializationOptions": {
 				"usePlaceholders": true
