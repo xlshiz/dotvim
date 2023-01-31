@@ -430,9 +430,12 @@ endif
 " =====================
 map <F4>	:SingleCompile<CR>
 map <c-F4>	:SingleCompileRun<CR>
-map <leader>*	:CtrlSF<CR>
+nmap <leader>*	:CtrlSF<CR>
+vmap <leader>*	<Plug>CtrlSFVwordExec
 map <leader>/o	:CtrlSFOpen<CR>
-map <leader>//	:CtrlSF 
+nmap <leader>//	<Plug>CtrlSFPrompt
+vmap <leader>//	<Plug>CtrlSFVwordPath
+nmap <leader>/*	<Plug>CtrlSFCwordPath
 if s:is_source("taglist.vim")
 	map <leader>2	:Tlist<CR>
 endif
